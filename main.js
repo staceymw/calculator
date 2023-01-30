@@ -47,4 +47,4 @@ function operate (operator, a, b) {
                             return result = multiply(a, b);
                         } else {
                             return result = divide(a, b);
-                        };
+                        };*/
