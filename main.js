@@ -1,50 +1,50 @@
+function add (a, b) {
+    return a + b;
+};
+
+function subtract (a, b) {
+    return a - b;
+};
+
+function multiply (a, b) {
+    return a * b;
+};
+
+function divide (a, b) {
+    if (b === 0) {
+        display.innerText("Cannot divide by 0.");
+        clear();
+        current.innerText = "0"
+    }
+    return a / b;
+};
+
+function percent (a, b) {
+    return a  * (b / 100);
+}
+
 
 function operate (operator, a, b) {
+    let result = 0;
+    a = num1;
+    b = num2;
     switch(operator) {
         case "add":
-            display.textContent = a + b
+            result = add(a, b)
             break;
         case "subtract":
-            display.textContent = a - b
+            result = subtract(a, b)
             break;
         case "multiply":
-            display.textContent = a * b
+            result = multiply(a, b)
             break;
         case "divide":
-            display.textContent = a / b
-            break;       
+            result = divide(a, b)
+            break;
+        case "percent":
+            result = percent(a, b)
+            default:
+                break;       
     }
-};            
-                   
-                   
-                   
-                    /*function add (a, b) {
-                        return a + b;
-                    };
-                    
-                    function subtract (a, b) {
-                        return a - b;
-                    };
-                    
-                    function multiply (a, b) {
-                        return a * b;
-                    };
-                    
-                    function divide (a, b) {
-                        return a / b;
-                    };
-
-
-                    function operate (operator a, b)
-                        operator = operation;
-                        a = firstNumber;
-                        b = secondNumber;
-                        if (operator == "+") {
-                            return result = add(a, b);
-                        } else if (operator == "-") {
-                            return result = subtract(a,b);
-                        } else if (operator == "*") {
-                            return result = multiply(a, b);
-                        } else {
-                            return result = divide(a, b);
-                        };*/
+    return result;
+}
