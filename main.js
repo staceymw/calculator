@@ -88,7 +88,8 @@ function compute () {
     } else if (operator === "%") {
         previousNum * (currentNum / 100);
     } else if (operator === "/") {
-        if (currentNum <= 0) {
+        if (currentNum === 0) {
+            previousNum = "ERROR";
             displayResults();
             return;
         }
@@ -109,7 +110,7 @@ function displayResults () {
     } else {
         currentDisplayNumber.textContent = previousNum.slice(0, 8) + "...";
     }
-    previousDisplayNumber.textContent = "0";
+    previousDisplayNumber.textContent = "";
     operator = "";
     currentNum = "";
 }
