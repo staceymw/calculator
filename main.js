@@ -6,32 +6,19 @@ const currentDisplayNumber = document.querySelector(".current-number");
 const previousDisplayNumber = document.querySelector(".previous-number");
 
 
-function compute () {
-    previousNum = Number(previousNum);
-    currentnum = Number(currentNum);
-    
-    if (operator === "+") {
-        previousNum += currentNum;
-    } else if (operator === "-") {
-        previousNum -= currentNum;
-    } else if (operator === "x") {
-        previousNum *= currentNum;
-    } else if (operator === "%") {
-        previousNum * (currentNum / 100);
-    } else if (operator === "/") {
-        if (currentNum <= 0) {
-            displayResults();
-            return;
-        }
-        previousNum /= currentNum
-    }
-    previousNum = roundNumber(previousNum);
-    previousNum = previousNum.toString();
-    displayResults();
-};
+
+
 
 const clear = document.querySelector(".clear");
 clear.addEventListener("click", clearAll);
+
+function clearAll() {
+    currentNum = "";
+    previousNum = "";
+    operator = "";
+    currentDisplayNumber.textContent = "0";
+    previousDisplayNumber.textContent = "";
+}
 
 
 const equals = document.querySelector(".equals");
@@ -88,10 +75,41 @@ function operatorCheck(text) {
     currentNum = "";
 }
 
-function clearAll() {
-    currentNum = "";
-    previousNum = "";
+function compute () {
+    previousNum = Number(previousNum);
+    currentNum = Number(currentNum);
+    
+    if (operator === "+") {
+       previousNum += currentNum;
+    } else if (operator === "-") {
+        previousNum -= currentNum;
+    } else if (operator === "x") {
+        previousNum *= currentNum;
+    } else if (operator === "%") {
+        previousNum * (currentNum / 100);
+    } else if (operator === "/") {
+        if (currentNum <= 0) {
+            displayResults();
+            return;
+        }
+        previousNum /= currentNum
+    }
+    previousNum = roundNumber(previousNum);
+    previousNum = previousNum.toString();
+    displayResults();
+};
+
+function roundNumber(num) {
+    return Math.round(num * 100000) / 100000
+}
+
+function displayResults () {
+    if (previousNum.length <= 8) {
+        currentDisplayNumber.textContent = previousNum;
+    } else {
+        currentDisplayNumber.textContent = previousNum.slice(0, 8) + "...";
+    }
+    previousDisplayNumber.textContent = "0";
     operator = "";
-    currentDisplayNumber.textContent = "0";
-    previousDisplayNumber.textContent = "";
+    currentNum = "";
 }
