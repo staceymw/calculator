@@ -1,160 +1,97 @@
-function add (a, b) {
-    return a + b;
-};
+let currentNum = "";
+let previousNum = "";
+let operator = "";
 
-function subtract (a, b) {
-    return a - b;
-};
+const currentDisplayNumber = document.querySelector(".current-number");
+const previousDisplayNumber = document.querySelector(".previous-number");
 
-function multiply (a, b) {
-    return a * b;
-};
 
-function divide (a, b) {
-    if (b === 0) {
-        display.innerText("Cannot divide by 0.");
-        clear();
-        current.innerText = "0"
+function compute () {
+    previousNum = Number(previousNum);
+    currentnum = Number(currentNum);
+    
+    if (operator === "+") {
+        previousNum += currentNum;
+    } else if (operator === "-") {
+        previousNum -= currentNum;
+    } else if (operator === "x") {
+        previousNum *= currentNum;
+    } else if (operator === "%") {
+        previousNum * (currentNum / 100);
+    } else if (operator === "/") {
+        if (currentNum <= 0) {
+            displayResults();
+            return;
+        }
+        previousNum /= currentNum
     }
-    return a / b;
+    previousNum = roundNumber(previousNum);
+    previousNum = previousNum.toString();
+    displayResults();
 };
 
-function percent (a, b) {
-    return a  * (b / 100);
-};
+const clear = document.querySelector(".clear");
+clear.addEventListener("click", clearAll);
 
 
-function operate (op, a, b) {
-    let result = 0;
-    a = Number(a);
-    b = Number(b);
-    switch(op) {
-        case "add":
-            result = add(a, b)
-            break;
-        case "subtract":
-            result = subtract(a, b)
-            break;
-        case "multiply":
-            result = multiply(a, b)
-            break;
-        case "divide":
-            result = divide(a, b)
-            break;
-        case "percent":
-            result = percent(a, b)
-            default:
-                break;       
+const equals = document.querySelector(".equals");
+equals.addEventListener("click", () => {
+    if (currentNum != "" && previousNum != "") {
+        compute();
     }
-    return result;
-};
+});
+
 
 const numberButtons = document.querySelectorAll(".number");
-const opButtons = document.querySelectorAll(".operation");
-const equals = document.querySelector(".equals");
-const clear = document.querySelector(".clear");
-const previous = document.querySelector(".previous");
-const current = document.querySelector(".current");
-
-let currentOp = "";
-let displayValue = "";
-let previousVal = "";
-let currentVal = "";
-let computed = false;
-
-numberButtons.forEach(button => {
-    button.addEventListener("click", () => {
-        appendNumber(button.innerText);
-        updateDisplay();
-    })
+numberButtons.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+        handleNumber(e.target.textContent);
+    });
 });
 
-opButtons.forEach(button => {
-    button.addEventListener("click", () => {
-        appendNumber(button.innerText);
-        updateDisplay();
-    })
-});
-
-equals.addEventListener("click", () => {
-    compute();
-});
-
-clear.addEventListener("click", () => {
-    clearAll();
-});
-
-function appendNumber(number) {
-    if (number === "." && current.innerText.includes(".")) {
-    return;
-}
-    if (computed) {
-        currentVal = "";
-        displayVal = "";
-        current.innerText = "";
-        computed = false
+function handleNumber(number) {
+    if (previousNum !== "" && currentNum !== "" && operator === "") {
+        previousNum = "";
+        currentDisplayNumber.textContent = currentNum;
     }
-    displayValue += number;
-    if (number !== ".") {
-        currentVal += number
-    }
-};
-
-function updateDisplay() {
-    current.innerText = displayValue;
-    currentVal = +current.innerText;
-};
-
-function compute() {
-    if (currentOp !== "") {
-        console.log(previousVal, currentVal);
-        let result = operate(currentOP, previousVal, currentVal);
-        if (result || result === 0) {
-            if (result.toString().length > 8) {
-                current.innerText = result.toFixed(6);
-                currentVal = result.toFixed(6);
-            } else {
-                current.innerText = result;
-                currentVal = result;
-            }
-            previousVal = "";
-            previous.innerText = "";
-            computed = true;
-            currentOp = "";
-        }
+    if (currentNum.length <= 8) {
+        currentNum += number;
+        currentDisplayNumber.textContent = currentNum;
     }
 }
+
+const opButtons = document.querySelectorAll(".operator");
+opButtons.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+        handleOperator(e.target.textContent);
+    });
+});
 
 function handleOperator(op) {
-    if (currentOp && !current.innerText) {
-        return
+    if (previousNum === "") {
+        previousNum = currentNum;
+        operatorCheck(op);
+    } else if (currentNum === "") {
+        operatorCheck(op);
+    } else {
+        compute();
+        operator = op;
+        currentDisplayNumber.textContent = "0";
+        previousDisplayNumber.textContent = previousNum + " " + operator;
     }
-    if (previous.innerText && current.innerText) {
-    let newOp = previous.innerText(previous.innerText.length - 1);
-    let result = operate(newOp, previousVal, currentVal);
-    previous.innerText = `${result}${op}`;
-    previousVal = result;
-    currentOp = op;
-    current.innerText = "";
-    currentVal = "";
-    displayVal = "";
-    return;
-    }
-    
-    previous.innerText = current.innerText;
-    previousValue = currentValue;
-    currentOp = op;
-    current.innerText = "";
-    currentVal = "";
-    previous.innerText += `${op}`;
-    displayValue = "";
+}
+
+function operatorCheck(text) {
+    operator = text;
+    previousDisplayNumber.textContent = previousNum + " " + operator;
+    currentDisplayNumber.textContent = "";
+    currentNum = "";
 }
 
 function clearAll() {
-    displayValue = "";
-    previousValue = "";
-    currentValue = "";
-    currentOp = "";
-    previous.innerText = "";
-    displayValue = "";
+    currentNum = "";
+    previousNum = "";
+    operator = "";
+    currentDisplayNumber.textContent = "0";
+    previousDisplayNumber.textContent = "";
 }
