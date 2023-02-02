@@ -113,3 +113,13 @@ function displayResults () {
     operator = "";
     currentNum = "";
 }
+
+const decimal = document.querySelector("#decimal");
+decimal.addEventListener("click", addDecimal);
+
+function addDecimal() {
+    if (!currentNum.includes(".")) {
+        currentNum += ".";
+        currentDisplayNumber.textContent = currentNum;
+    }
+}
