@@ -98,7 +98,7 @@ function compute () {
     previousNum = roundNumber(previousNum);
     previousNum = previousNum.toString();
     displayResults();
-};
+}
 
 function roundNumber(num) {
     return Math.round(num * 100000) / 100000
@@ -122,5 +122,22 @@ function addDecimal() {
     if (!currentNum.includes(".")) {
         currentNum += ".";
         currentDisplayNumber.textContent = currentNum;
+    }
+}
+
+const backspace = document.querySelector(".delete");
+backspace.addEventListener("click", handleDelete);
+
+function handleDelete() {
+    if (currentNum !== "") {
+        currentNum = currentNum.slice(0, -1);
+        currentDisplayNumber.textContent = currentNum;
+        if (currentNum === "") {
+            currentDisplayNumber.textContent = "0";
+        }
+    }
+    if (currentNum === "" && previousNum !== "" && operator === "") {
+        previousNum = previousNum.slice(0, -1);
+        currentDisplayNumber.textContent = previousNum
     }
 }
