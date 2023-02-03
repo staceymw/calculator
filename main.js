@@ -79,26 +79,27 @@ function compute () {
     previousNum = Number(previousNum);
     currentNum = Number(currentNum);
     
-    if (operator === "+") {
-       previousNum += currentNum;
-    } else if (operator === "-") {
-        previousNum -= currentNum;
-    } else if (operator === "x") {
-        previousNum *= currentNum;
-    } else if (operator === "%") {
-        previousNum * (currentNum / 100);
-    } else if (operator === "/") {
-        if (currentNum === 0) {
-            previousNum = "ERROR";
-            displayResults();
-            return;
+        if (operator === "+") {
+           previousNum += currentNum;
+        } else if (operator === "-") {
+            previousNum -= currentNum;
+        } else if (operator === "x") {
+            previousNum *= currentNum;
+        } else if (operator === "%") {
+            previousNum *= (currentNum / 100);
+        } else if (operator === "/") {
+            if (currentNum === 0) {
+                previousNum = "ERROR";
+                displayResults();
+                return;
+            }
+            previousNum /= currentNum
         }
-        previousNum /= currentNum
+        previousNum = roundNumber(previousNum);
+        previousNum = previousNum.toString();
+        displayResults();
     }
-    previousNum = roundNumber(previousNum);
-    previousNum = previousNum.toString();
-    displayResults();
-}
+   
 
 function roundNumber(num) {
     return Math.round(num * 100000) / 100000
@@ -141,3 +142,4 @@ function handleDelete() {
         currentDisplayNumber.textContent = previousNum
     }
 }
+
